@@ -2,7 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class UserProfile extends StatelessWidget {
-  const UserProfile({Key? key}) : super(key: key);
+  List<MenuRowData> firstMenuRow = [
+    MenuRowData(Icons.favorite, 'Избранное'),
+    MenuRowData(Icons.call, 'Звонки'),
+    MenuRowData(Icons.computer, 'Устройства'),
+    MenuRowData(Icons.folder, 'Папка с чатами'),
+  ];
+  List<MenuRowData> secondMenuRow = [
+    MenuRowData(Icons.notifications, 'Уведомления и звуки'),
+    MenuRowData(Icons.privacy_tip, 'Конфиденциальность'),
+    MenuRowData(Icons.date_range, 'Данные и память'),
+    MenuRowData(Icons.brush, 'Оформление'),
+    MenuRowData(Icons.language, 'Язык'),
+  ];
+  UserProfile();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +32,9 @@ class UserProfile extends StatelessWidget {
           children: [
             _UserInfo(),
             SizedBox(height: 30),
-            _MenuBlock(),
+            _MenuWidget(menuRow: firstMenuRow),
+            SizedBox(height: 30),
+            _MenuWidget(menuRow: secondMenuRow),
           ],
         ),
       ),
@@ -112,8 +127,12 @@ class _AvatarWidget extends StatelessWidget {
   }
 }
 
-class _MenuBlock extends StatelessWidget {
-  const _MenuBlock({Key? key}) : super(key: key);
+class _MenuWidget extends StatelessWidget {
+  final List<MenuRowData> menuRow;
+  const _MenuWidget({
+    Key? key,
+    required this.menuRow,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -121,13 +140,38 @@ class _MenuBlock extends StatelessWidget {
       color: Colors.white,
       width: double.infinity,
       child: Column(
+        children: menuRow.map((data) => _MenuWidgetRow(data: data)).toList(),
+      ),
+    );
+  }
+}
+
+class MenuRowData {
+  final IconData icon;
+  final String text;
+
+  MenuRowData(this.icon, this.text);
+}
+
+class _MenuWidgetRow extends StatelessWidget {
+  final MenuRowData data;
+
+  const _MenuWidgetRow({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
         children: [
-          Row(
-            children: [
-              Icon(Icons.favorite_outline),
-              Text('Избранное'),
-            ],
-          )
+          Icon(data.icon),
+          SizedBox(width: 15),
+          Expanded(child: Text(data.text)),
+          Icon(Icons.chevron_right),
         ],
       ),
     );
