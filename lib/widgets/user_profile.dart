@@ -15,6 +15,14 @@ class UserProfile extends StatelessWidget {
     MenuRowData(Icons.brush, 'Оформление'),
     MenuRowData(Icons.language, 'Язык'),
   ];
+  List<MenuRowData> thirdMenuRow = [
+    MenuRowData(Icons.lock_clock, 'Apple Watch'),
+  ];
+  List<MenuRowData> fourthMenuRow = [
+    MenuRowData(Icons.help, 'Помощь'),
+    MenuRowData(Icons.question_answer, 'Вопросы о Telegram'),
+  ];
+
   UserProfile();
 
   @override
@@ -26,15 +34,19 @@ class UserProfile extends StatelessWidget {
       ),
       body: Container(
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
+          //mainAxisAlignment: MainAxisAlignment.start,
+          //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _UserInfo(),
             SizedBox(height: 30),
             _MenuWidget(menuRow: firstMenuRow),
             SizedBox(height: 30),
             _MenuWidget(menuRow: secondMenuRow),
+            SizedBox(height: 30),
+            _MenuWidget(menuRow: thirdMenuRow),
+            SizedBox(height: 30),
+            _MenuWidget(menuRow: fourthMenuRow),
           ],
         ),
       ),
@@ -47,21 +59,36 @@ class _UserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      width: double.infinity,
-      child: Column(
-        children: [
-          SizedBox(height: 20),
-          _AvatarWidget(),
-          SizedBox(height: 20),
-          _UserNameWidget(),
-          SizedBox(height: 10),
-          _UserPhoneWidget(),
-          SizedBox(height: 10),
-          _UserNickNameWidget(),
-        ],
-      ),
+    return Stack(
+      children: [
+        Container(
+          color: Colors.white,
+          width: double.infinity,
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              _AvatarWidget(),
+              SizedBox(height: 20),
+              _UserNameWidget(),
+              SizedBox(height: 10),
+              _UserPhoneWidget(),
+              SizedBox(height: 10),
+              _UserNickNameWidget(),
+            ],
+          ),
+        ),
+        Positioned(
+          top: 25,
+          right: 25,
+          child: Text(
+            'Изменить',
+            style: TextStyle(
+              color: Colors.blue,
+              fontSize: 15,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
